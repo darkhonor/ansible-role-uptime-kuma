@@ -1,0 +1,32 @@
+---
+# tasks file for ansible-role-uptime-kuma
+- name: Create Storage Volume 
+  ansible.builtin.file:
+    path: '{{ item }}'
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+  with_items:
+    - "{{ uk_volume_directory }}"
+    - "{{ uk_volume_directory }}/data"
+
+- name: Install Uptime Kuma Container
+  community.docker.docker_container:
+    name: uptime-kuma
+    image: "louislam/uptime-kuma:{{ uptime_kuma_version }}"
+    published_ports:
+      - "{{ uptime_kuma_port }}:3001/tcp"
+    # env:
+    #   VIRTUAL_HOST: "{{ inventory_hostname }}.{{ dns_domain }}"
+    volumes:
+      - "{{ uk_volume_directory }}/data:/app/data:rw"
+    restart_policy: unless-stopped
+    # healthcheck:
+    #   test: ["CMD", "curl", "--fail", "http://localhost:{{ pihole_web_port }}"]
+    #   interval: 5m
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 30s
+  when:
+    - docker_container

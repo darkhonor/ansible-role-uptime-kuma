@@ -1,0 +1,7 @@
+---
+# defaults file for ansible-role-uptime-kuma
+uk_volume_directory: /opt/uptime-kuma
+uptime_kuma_version: 1.23.2
+docker_container: true
+
+uptime_kuma_port: 3001
