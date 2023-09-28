@@ -17,8 +17,8 @@
     image: "louislam/uptime-kuma:{{ uptime_kuma_version }}"
     published_ports:
       - "{{ uptime_kuma_port }}:3001/tcp"
-    # env:
-    #   VIRTUAL_HOST: "{{ inventory_hostname }}.{{ dns_domain }}"
+    env:
+      NODE_EXTRA_CA_CERTS: "/app/data/CAcert.pem"
     volumes:
       - "{{ uk_volume_directory }}/data:/app/data:rw"
     restart_policy: unless-stopped
