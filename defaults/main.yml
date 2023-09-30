@@ -3,10 +3,13 @@
 uk_volume_directory: /opt/uptime-kuma
 uptime_kuma_version: 1.23.2
 docker_container: true
-enable_ufw: true
 
 uptime_kuma_port: 3001
 
+###
+# Firewall Settings
+###
+enable_ufw: true
 valid_sources:
   - 10.0.0.0/8
   - 172.16.0.0/12
