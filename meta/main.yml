@@ -1,7 +1,7 @@
 galaxy_info:
   author: Alex Ackerman
   description: Ansible Role to Install Uptime Kuma
-  role_name: portainer
+  role_name: uptime_kuma
 
   issue_tracker_url: https://github.com/darkhonor/ansible-role-uptime-kuma/issues
 
