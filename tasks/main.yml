@@ -11,6 +11,25 @@
     - "{{ uk_volume_directory }}"
     - "{{ uk_volume_directory }}/data"
 
+- name: Ensure UFW is installed
+  ansible.builtin.apt:
+    name:
+      - ufw
+    state: present
+  when:
+    - enable_ufw
+
+- name: Open Firewall Port
+  community.general.ufw:
+    rule: allow
+    port: '{{ uptime_kuma_port }}'
+    proto: tcp
+    src: '{{ item }}'
+    comment: Allow Uptime Kuma from Private Networks
+  loop: '{{ valid_sources }}'
+  when:
+    - enable_ufw
+
 - name: Install Uptime Kuma Container
   community.docker.docker_container:
     name: uptime-kuma
@@ -22,11 +41,5 @@
     volumes:
       - "{{ uk_volume_directory }}/data:/app/data:rw"
     restart_policy: unless-stopped
-    # healthcheck:
-    #   test: ["CMD", "curl", "--fail", "http://localhost:{{ pihole_web_port }}"]
-    #   interval: 5m
-    #   timeout: 10s
-    #   retries: 3
-    #   start_period: 30s
   when:
     - docker_container
